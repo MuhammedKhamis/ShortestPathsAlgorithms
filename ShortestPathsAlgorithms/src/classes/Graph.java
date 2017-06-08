@@ -12,11 +12,13 @@ public class Graph implements IGraph {
 
     private ArrayList<ArrayList<Pair<Integer, Integer>>> adjList;
     private ArrayList<Edge> edges;
+    private ArrayList<Integer> processedOrder;
 
     public Graph() {
         // TODO Auto-generated constructor stub
         adjList = new ArrayList<>();
         edges = new ArrayList<>();
+        processedOrder = new ArrayList<>();
     }
 
     @Override
@@ -62,6 +64,7 @@ public class Graph implements IGraph {
             Pair<Integer, Integer> node = pq.remove();
             int srcNode = node.getSecond();
             int weight = node.getFirst();
+            processedOrder.add(srcNode);
             for (int i = 0; i < adjList.get(srcNode).size(); i++) {
                 if (distances[adjList.get(srcNode).get(i).getFirst()] != Integer.MAX_VALUE
                         && distances[adjList.get(srcNode).get(i).getFirst()] > weight
@@ -73,13 +76,12 @@ public class Graph implements IGraph {
                 }
             }
         }
-
     }
 
     @Override
     public ArrayList<Integer> getDijkstraProcessedOrder() {
         // TODO Auto-generated method stub
-        return null;
+        return processedOrder;
     }
 
     @Override
