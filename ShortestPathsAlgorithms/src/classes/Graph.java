@@ -66,9 +66,8 @@ public class Graph implements IGraph {
             int weight = node.getFirst();
             processedOrder.add(srcNode);
             for (int i = 0; i < adjList.get(srcNode).size(); i++) {
-                if (distances[adjList.get(srcNode).get(i).getFirst()] != Integer.MAX_VALUE
-                        && distances[adjList.get(srcNode).get(i).getFirst()] > weight
-                                + adjList.get(srcNode).get(i).getSecond()) {
+                if (distances[adjList.get(srcNode).get(i).getFirst()] > weight
+                        + adjList.get(srcNode).get(i).getSecond()) {
                     distances[adjList.get(srcNode).get(i).getFirst()] = weight
                             + adjList.get(srcNode).get(i).getSecond();
                     pq.add(new Pair<Integer, Integer>(distances[adjList.get(srcNode).get(i).getFirst()],
@@ -109,7 +108,7 @@ public class Graph implements IGraph {
             int srcNode = edges.get(j).getSrc();
             int distNode = edges.get(j).getDist();
             int weight = edges.get(j).getWeight();
-            if (distances[distNode] != Integer.MAX_VALUE && distances[distNode] > weight + distances[srcNode]) {
+            if (distances[srcNode] != Integer.MAX_VALUE && distances[distNode] > weight + distances[srcNode]) {
                 distances[distNode] = weight + distances[srcNode];
                 flag = false;
             }
