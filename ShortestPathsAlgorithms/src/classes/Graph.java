@@ -18,9 +18,6 @@ public class Graph implements IGraph {
 
     public Graph() {
         // TODO Auto-generated constructor stub
-        adjList = new ArrayList<>();
-        edges = new ArrayList<>();
-        processedOrder = new ArrayList<>();
     }
 
     @Override
@@ -40,6 +37,7 @@ public class Graph implements IGraph {
             String[] inputs = line.split(" ");
             nodes = Integer.valueOf(inputs[0].trim());
             edges = Integer.valueOf(inputs[1].trim());
+            initialize();
             fillAdjList(nodes);
             // read start end cost
             while (bf.ready()) {
@@ -121,7 +119,8 @@ public class Graph implements IGraph {
         distances = initializeDist(distances);
         distances[src] = 0;
         for (int i = 0; i < distances.length - 1; i++) {
-            processEdges(distances);
+            boolean res = processEdges(distances);
+            print(String.valueOf(res));
         }
         return processEdges(distances);
     }
@@ -131,6 +130,12 @@ public class Graph implements IGraph {
             distances[i] = Integer.MAX_VALUE;
         }
         return distances;
+    }
+
+    private void initialize() {
+        adjList = new ArrayList<>();
+        edges = new ArrayList<>();
+        processedOrder = new ArrayList<>();
     }
 
     private boolean processEdges(int[] distances) {
@@ -156,7 +161,7 @@ public class Graph implements IGraph {
 
     // used for Debugging
     private void print(String messege) {
-        System.out.println(messege);
+       // System.out.println(messege);
     }
 
 }

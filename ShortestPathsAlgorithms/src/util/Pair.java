@@ -12,9 +12,7 @@ public class Pair<A, B> implements Comparable<Pair> {
 
     public int hashCode() {
         int hashFirst = first != null ? first.hashCode() : 0;
-        int hashSecond = second != null ? second.hashCode() : 0;
-
-        return (hashFirst + hashSecond) * hashSecond + hashFirst;
+        return hashFirst;
     }
 
     public boolean equals(Object other) {
@@ -53,9 +51,9 @@ public class Pair<A, B> implements Comparable<Pair> {
     public int compareTo(Pair other) {
         // TODO Auto-generated method stub
         if (hashCode() > other.hashCode()) {
-            return -1;
-        } else if (hashCode() < other.hashCode()) {
             return 1;
+        } else if (hashCode() < other.hashCode()) {
+            return -1;
         }
         return 0;
     }
