@@ -1,6 +1,8 @@
 package classes;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -24,12 +26,42 @@ public class Graph implements IGraph {
     @Override
     public void readGraph(File file) {
         // TODO Auto-generated method stub
+        FileReader reader;
+        try {
+            reader = new FileReader(file);
+            BufferedReader bf = new BufferedReader(reader);
+            String line = null;
+            // Reading the number of Edges and Nodes
+            while (bf.ready()) {
+                line = bf.readLine();
+                break;
+            }
+            int nodes, edges;
+            String[] inputs = line.split(" ");
+            nodes = Integer.valueOf(inputs[0].trim());
+            edges = Integer.valueOf(inputs[1].trim());
+            fillAdjList(nodes);
+            // read start end cost
+            while (bf.ready()) {
+                line = bf.readLine();
+                inputs = line.split(" ");
+                int src = Integer.valueOf(inputs[0].trim());
+                int dist = Integer.valueOf(inputs[1].trim());
+                int cost = Integer.valueOf(inputs[2].trim());
+                this.edges.add(new Edge(src, dist, cost));
+                this.adjList.get(src).add(new Pair<Integer, Integer>(dist, cost));
+            }
+            bf.close();
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int size() {
         // TODO Auto-generated method stub
-        return adjList.size() + edges.size();
+        return adjList.size();
     }
 
     @Override
@@ -56,7 +88,7 @@ public class Graph implements IGraph {
     @Override
     public void runDijkstra(int src, int[] distances) {
         // TODO Auto-generated method stub
-        distances = initializeDist();
+        distances = initializeDist(distances);
         distances[src] = 0;
         PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<>();
         pq.add(new Pair<Integer, Integer>(distances[src], src));
@@ -86,7 +118,7 @@ public class Graph implements IGraph {
     @Override
     public boolean runBellmanFord(int src, int[] distances) {
         // TODO Auto-generated method stub
-        distances = initializeDist();
+        distances = initializeDist(distances);
         distances[src] = 0;
         for (int i = 0; i < distances.length - 1; i++) {
             processEdges(distances);
@@ -94,8 +126,7 @@ public class Graph implements IGraph {
         return processEdges(distances);
     }
 
-    private int[] initializeDist() {
-        int[] distances = new int[adjList.size()];
+    private int[] initializeDist(int[] distances) {
         for (int i = 0; i < distances.length; i++) {
             distances[i] = Integer.MAX_VALUE;
         }
@@ -114,6 +145,18 @@ public class Graph implements IGraph {
             }
         }
         return flag;
+    }
+
+    // fill the adjlist with the number of nodes
+    private void fillAdjList(int n) {
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<Pair<Integer, Integer>>());
+        }
+    }
+
+    // used for Debugging
+    private void print(String messege) {
+        System.out.println(messege);
     }
 
 }

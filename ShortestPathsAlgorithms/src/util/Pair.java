@@ -1,6 +1,6 @@
 package util;
 
-public class Pair<A, B> {
+public class Pair<A, B> implements Comparable<Pair> {
     private A first;
     private B second;
 
@@ -47,5 +47,16 @@ public class Pair<A, B> {
 
     public void setSecond(B second) {
         this.second = second;
+    }
+
+    @Override
+    public int compareTo(Pair other) {
+        // TODO Auto-generated method stub
+        if (hashCode() > other.hashCode()) {
+            return -1;
+        } else if (hashCode() < other.hashCode()) {
+            return 1;
+        }
+        return 0;
     }
 }
