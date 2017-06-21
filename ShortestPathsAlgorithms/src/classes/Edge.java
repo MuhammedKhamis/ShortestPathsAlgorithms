@@ -20,8 +20,17 @@ public class Edge {
         return terminals;
     }
     
-    public void predecessor() {
-        terminals[1].setPredecessor(terminals[0]);
+//    public void predecessor() {
+//        terminals[1].setPredecessor(terminals[0]);
+//    }
+    
+    public Vertex getFirst() {
+        return terminals[0];
+    }
+    
+    public Vertex getSecond() {
+        return terminals[1];
+        
     }
 
 }

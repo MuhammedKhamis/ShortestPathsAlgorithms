@@ -8,7 +8,7 @@ public class Vertex {
     
     public Vertex(int val) {
         this.val = val;
-        this.distance = Integer.MAX_VALUE;
+        this.distance = Integer.MAX_VALUE - 10000;
         this.predecessor = this;
     }
     

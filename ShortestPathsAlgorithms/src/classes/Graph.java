@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+//import java.util.Comparator;
+//import java.util.PriorityQueue;
 
 import interfaces.IGraph;
 
@@ -19,7 +19,8 @@ public class Graph implements IGraph {
     private int[][] adjMatrix;
     private Edge[] edgesArray;
     private Vertex[] vertices;
-    private ArrayList<Integer> set;
+    private int[] setDistances;
+    private ArrayList<Integer> setOrder;
     private int maxNum = Integer.MAX_VALUE;
     
     @Override
@@ -91,19 +92,22 @@ public class Graph implements IGraph {
     @Override
     public void runDijkstra(int src, int[] distances) {
         vertices[src].setdistance(0);
-        set = new ArrayList<>();
-        Comparator<Vertex> comp = new VertexCompare();
-        PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>(comp);
-        for(int i = 0; i < numOfVert; i++)
-            queue.add(vertices[i]);
+        setDistances = new int[numOfVert];
+        setOrder = new ArrayList<>();
+        //Comparator<Vertex> comp = new VertexCompare();
+        //PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>(comp);
+        BinaryHeap queue = new BinaryHeap(vertices);
+        queue.buildHeap();
         while (!queue.isEmpty()) {
-            Vertex u = queue.remove();
-            set.add(u.getVal());
+            Vertex u = queue.extractMin();
+            setDistances[u.getVal()] = u.getdistance();
+            setOrder.add(u.getVal());
             for(int j = 0; j < numOfVert; j++) {
                 if (adjMatrix[u.getVal()][vertices[j].getVal()] != maxNum) {
                     relax(u,vertices[j],adjMatrix[u.getVal()][vertices[j].getVal()], distances);
-                    if(queue.remove(vertices[j]))
-                        queue.add(vertices[j]);
+                    queue.buildHeap();
+//                    if(queue.remove(vertices[j]))
+//                        queue.add(vertices[j]);
                 }
             }
         }
@@ -119,15 +123,15 @@ public class Graph implements IGraph {
 
     @Override
     public ArrayList<Integer> getDijkstraProcessedOrder() {
-        return set;
+        return setOrder;
     }
 
     @Override
     public boolean runBellmanFord(int src, int[] distances) {
         vertices[src].setdistance(0); 
-        for (int i = 0; i < numOfVert - 1; i++) {
+        for (int i = 1; i < numOfVert - 1; i++) {
             for(Edge e : edgesArray) {
-                relax(e,distances);
+                relax(vertices[e.getFirst().getVal()], vertices[e.getSecond().getVal()], e.getWeight(), distances);
             }
         }
         for (Edge e : edgesArray) {
@@ -138,28 +142,34 @@ public class Graph implements IGraph {
         return true;
     }
 
-    private void relax(Edge e, int[] distances) {
+    /*private void relax(Edge e, int[] distances) {
         Vertex[] terminals = e.terminals();
         if (terminals[1].getdistance() > terminals[0].getdistance() + e.getWeight()) {
             e.terminals()[1].setdistance(terminals[0].getdistance() + e.getWeight());
             distances[e.terminals()[1].getVal()] = terminals[0].getdistance() + e.getWeight();
-            e.predecessor();
         }
-    }
+    }*/
     
-    public void printDistances() {
+    public void printBelman() {
         for(Vertex v : vertices)
             System.out.print(v.getdistance() + " ");
+    }
+    
+    public void printDij() {
+        for(int v : setDistances) {
+            System.out.print(v + " ");
+        }
     }
 
     public static void main(String[] args) {
         Graph g = new Graph();
-        g.readGraph(new File("dijkstra_2.txt"));
+        g.readGraph(new File("dijkstra_3.txt"));
         int[] a = new int[g.size()];
-        //System.out.println(g.runBellmanFord(0, a));
+//        System.out.println(g.runBellmanFord(0, a));
+//        g.printBelman();
         g.runDijkstra(0, a);
         ArrayList<Integer> sorted = g.getDijkstraProcessedOrder();
-        g.printDistances();
+        g.printDij();
         System.out.println();
         for(int i : sorted)
             System.out.print(i + " ");
