@@ -15,6 +15,7 @@ public class Graph implements IGraph {
     private ArrayList<ArrayList<Pair<Integer, Integer>>> adjList;
     private ArrayList<Edge> edges;
     private ArrayList<Integer> processedOrder;
+    private boolean[] visited;
 
     public Graph() {
         // TODO Auto-generated constructor stub
@@ -87,6 +88,7 @@ public class Graph implements IGraph {
     public void runDijkstra(int src, int[] distances) {
         // TODO Auto-generated method stub
         distances = initializeDist(distances);
+        visited = new boolean[distances.length];
         distances[src] = 0;
         PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<>();
         pq.add(new Pair<Integer, Integer>(distances[src], src));
@@ -94,7 +96,10 @@ public class Graph implements IGraph {
             Pair<Integer, Integer> node = pq.remove();
             int srcNode = node.getSecond();
             int weight = node.getFirst();
-            processedOrder.add(srcNode);
+            if (!visited[srcNode]) {
+                processedOrder.add(srcNode);
+                visited[srcNode] = true;
+            }
             for (int i = 0; i < adjList.get(srcNode).size(); i++) {
                 if (distances[adjList.get(srcNode).get(i).getFirst()] > weight
                         + adjList.get(srcNode).get(i).getSecond()) {
@@ -122,7 +127,7 @@ public class Graph implements IGraph {
             boolean res = processEdges(distances);
             print(String.valueOf(res));
         }
-        return processEdges(distances);
+        return processEdges(distances.clone());
     }
 
     private int[] initializeDist(int[] distances) {
@@ -161,7 +166,7 @@ public class Graph implements IGraph {
 
     // used for Debugging
     private void print(String messege) {
-       // System.out.println(messege);
+        // System.out.println(messege);
     }
 
 }

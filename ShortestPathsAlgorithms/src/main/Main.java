@@ -1,10 +1,7 @@
 package main;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import classes.Graph;
@@ -17,18 +14,19 @@ public class Main {
         String[] bellman = {"belman_ford_1", "belman_ford_2", "belman_ford_3"};
         String[] dijstra = {"dijkstra_1", "dijkstra_2", "dijkstra_3"};
         IGraph g = new Graph();
+        int[] dist;
         boolean res = false;
         for (String e : bellman) {
             File file = new File(e + ".txt");
             g.readGraph(file);
-            int[] dist = new int[g.size()];
+            dist = new int[g.size()];
             res = g.runBellmanFord(0, dist);
-            writeBellman(e + "_output.txt", dist, res);
+            writeBellman(e + "_output.txt", dist, !res);
         }
         for (String e : dijstra) {
             File file = new File(e + ".txt");
             g.readGraph(file);
-            int[] dist = new int[g.size()];
+            dist = new int[g.size()];
             g.runDijkstra(0, dist);
             writeDijkstra(e + "_output.txt", dist, g.getDijkstraProcessedOrder());
         }
