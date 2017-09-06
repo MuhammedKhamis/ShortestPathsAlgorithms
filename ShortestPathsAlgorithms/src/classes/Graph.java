@@ -1,5 +1,6 @@
 package classes;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -60,33 +61,40 @@ public class Graph implements IGraph {
     @Override
     public int size() {
         // TODO Auto-generated method stub
+
         return adjList.size();
+
     }
 
     @Override
     public ArrayList<Integer> getVertices() {
         // TODO Auto-generated method stub
+
         ArrayList<Integer> vertices = new ArrayList<>();
         for (int i = 0; i < adjList.size(); i++) {
             vertices.add(i);
         }
 
         return vertices;
+
     }
 
     @Override
     public ArrayList<Integer> getNeighbors(int v) {
         // TODO Auto-generated method stub
+
         ArrayList<Integer> neighbors = new ArrayList<>();
         for (int i = 0; i < adjList.get(v).size(); i++) {
             neighbors.add(adjList.get(v).get(i).getFirst());
         }
         return neighbors;
+
     }
 
     @Override
     public void runDijkstra(int src, int[] distances) {
         // TODO Auto-generated method stub
+
         distances = initializeDist(distances);
         visited = new boolean[distances.length];
         distances[src] = 0;
@@ -110,6 +118,7 @@ public class Graph implements IGraph {
                 }
             }
         }
+
     }
 
     @Override
@@ -121,6 +130,7 @@ public class Graph implements IGraph {
     @Override
     public boolean runBellmanFord(int src, int[] distances) {
         // TODO Auto-generated method stub
+
         distances = initializeDist(distances);
         distances[src] = 0;
         for (int i = 0; i < distances.length - 1; i++) {
@@ -167,6 +177,7 @@ public class Graph implements IGraph {
     // used for Debugging
     private void print(String messege) {
         // System.out.println(messege);
+
     }
 
 }
