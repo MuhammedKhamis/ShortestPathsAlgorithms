@@ -11,9 +11,8 @@ Practice impelementation in Java of some shortest path algorithms.
 
 ## Contributions:
 
-* Ahmed Ezzat.
+* ![Ahmed Ezzat.](https://github.com/AhmedMaghawry)
 
-* Marwan Morsy.
+* ![Marwan Morsy.](https://github.com/Marwan-Morsy)
 
-* Muhammed Essam.
-
+* ![Muhammed Essam.](https://github.com/MuhammedKhamis)
